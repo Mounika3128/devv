@@ -1,0 +1,16 @@
+git init 
+git config --global user.name "Your Name"
+git config --global user.email "youremail@example.com"
+git add .
+git commit -m "Initial commit with index.html"
+git remote add origin https://github.com/yourusername/GitLabExam.git
+git branch -M main
+git push -u origin main
+.
+.
+.
+to create new file
+git checkout -b feature1
+git add .
+git commit -m "Added feature1 branch content"
+git push origin feature1
