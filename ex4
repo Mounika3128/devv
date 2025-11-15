@@ -1,0 +1,72 @@
+app.py
+from flask import Flask
+app = Flask(__name__)
+@app.route('/')
+def home():
+ return "Hello from Flask running in Docker!"
+if __name__ == "__main__":
+ app.run(host="0.0.0.0", port=5000)
+
+dockerfile:
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+EXPOSE 5000
+CMD ["python", "app.py"]
+
+requirements.txt
+Flask
+
+docker build -t flask-docker-app .
+docker run -p 5000:5000 flask-docker-app
+
+docker login
+docker tag flask-docker-app yourname/flask-docker-app:local
+docker push yourname/flask-docker-app:local
+docker run -p 5000:5000 yourname/flask-docker-app:local
+
+.github/workflows/main.yml
+
+name: Docker Build & Push
+on: [push]
+jobs:
+ build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+            push: true
+            tags:  meghana688/flaskdoc:latest
+
+git init
+git add .
+git commit -m "initial commit"
+git branch -M main
+git remote add origin https://github.com/beereddy2004/demo.git
+git push -u origin main
+
+Add two secrets:
+Secret Name Value
+DOCKERHUB_USERNAME beereddy2004
+DOCKERHUB_TOKEN
+(create token in Docker Hub → Account Settings → Security →
+New Access Token)
+
+git add .
+git commit -m "update"
+git push
+
+docker build -t beereddy2004/demo:local .
+docker push beereddy2004/demo:local
+
+
+
+
+
